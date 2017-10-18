@@ -1,37 +1,38 @@
 
-import unittest
+import unittest2 as unittest
+import logging
+
+# from unittest2.mock import MagicMock
 
 logger = logging.getLogger(__name__)
-
-class MyModel(object):
-    name = 'PalindromicNumberTest'
     
-
 class PalindromicNumberTest(unittest.TestCase):
     
-    my_data = {}
-    
     def _getTargetClass(self):
-        from app.palindromic_number import PalindromicNumber
+        from playground.SSK.palindromic_number.app.palindromic_number import PalindromicNumber
         return PalindromicNumber
-    
     
     def setUp(self):
         self.number = 267        
-        self.processor = self._getTargetClass()(MyModel(), self.number)
-        
+        self.processor = self._getTargetClass()(self.number)
         
     def test_getBitRepresentation(self):
-        pass
-    
-    
-    def test_getPalindrome(self):
-        pass
+        a = self.processor.getBitRepresentation(self.number, 4)
+        self.assertEqual(a, 10023)
+        str_a = self.processor.getBitRepresentation(str(self.number), 4)
+        self.assertRaises(ValueError, str_a)
         
+    def test_getPalindrome(self):
+        # self.processor.getBitRepresentation = MagicMock(return_value = 12021)
+        a = self.processor.getPalindrome(2,36)
+        self.assertEqual(len(a), 2)
+        invalid_base_a = self.processor.getPalindrome(1,44)
+        self.assertRaises(ValueError, invalid_base_a)
         
     def tearDown(self):
         logger.info('\n*** Finished Test %s ***\n', self.id().split('.')[-1])
         
         
-def main():
-    unitTest(headless=True, separateProc=False, runCoverage=False, suppressOutput=False)
+if __name__ == "__main__":
+    # unittest.main()
+    unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(PalindromicNumberTest))
