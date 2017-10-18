@@ -1,4 +1,5 @@
 import string
+import csv
 
 
 class PalindromicNumber(object):
@@ -19,13 +20,35 @@ class PalindromicNumber(object):
             return self.getBitRepresentation(n // base, base) + a
     
     
-    def getPalindrome(self):
-        for i in range(2, 37):
+    def getPalindrome(self, min_base, max_base):
+        if min_base < 2 or max_base > 36:
+            raise ValueError("Invalid Min / Max Base. The Base value should be between 2 and 36")
+        for i in range(min_base, max_base+1):
             bit_str = self.getBitRepresentation(self.number,i)
             if bit_str == bit_str[::-1]:
                 return self.number, i
+        return (self.number, None)
 
+'''
+if __name__ == "__main__":
+    palindrome = PalindromicNumber(89)
+    print palindrome.getPalindrome(2, 36)
+'''    
 
 if __name__ == "__main__":
-    palindrome = PalindromicNumber("89")
-    print palindrome.getPalindrome()
+    input_file = open("input/file.csv", "rb")
+    output_file = open("output/file.csv", "wb")
+
+    reader = csv.reader(input_file)
+    writer = csv.writer(output_file, delimiter=',')
+    writer.writerow(["Decimal", "Smallest Base"])
+    row_num = 0
+    for row in reader:
+        if row_num == 0:
+            row_num += 1
+            continue
+        palindrome = PalindromicNumber(int(row[0]))
+        writer.writerow(palindrome.getPalindrome(2,36))
+        
+    input_file.close()
+    output_file.close()
