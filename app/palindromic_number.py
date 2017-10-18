@@ -1,6 +1,12 @@
+#!/usr/bin/env python
+
+# By Saurabh Katkar
+
 import string
 import csv
+import logging
 
+logging.getLogger().setLevel(logging.INFO)
 
 class PalindromicNumber(object):
     
@@ -33,11 +39,12 @@ class PalindromicNumber(object):
 if __name__ == "__main__":
     palindrome = PalindromicNumber(89)
     print palindrome.getPalindrome(2, 36)
-'''    
+'''  
 
 if __name__ == "__main__":
-    input_file = open("input/file.csv", "rb")
-    output_file = open("output/file.csv", "wb")
+    logging.info('Application started....')
+    input_file = open("input.csv", "rb")
+    output_file = open("output.csv", "wb")
 
     reader = csv.reader(input_file)
     writer = csv.writer(output_file, delimiter=',')
@@ -52,3 +59,5 @@ if __name__ == "__main__":
         
     input_file.close()
     output_file.close()
+    logging.info('Application stopped')
+
